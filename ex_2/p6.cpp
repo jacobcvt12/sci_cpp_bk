@@ -1,0 +1,23 @@
+#include <iostream>
+#include <cmath>
+
+int main()
+{
+	double x_prev = exp(0) + pow(0, 3) - 5;
+	double x_next;
+
+	std::cout << x_prev << std::endl;
+
+	for (int i = 1; i <= 100; i++)
+	{
+		x_next = x_prev - 
+			(exp(x_prev)+pow(x_prev, 3)-5)/
+			(exp(x_prev)+2*pow(x_prev, 2));
+
+		x_prev = x_next;
+		
+		std::cout << x_next << std::endl;
+	}
+
+	return 0;
+}
