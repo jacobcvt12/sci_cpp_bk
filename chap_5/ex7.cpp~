@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cassert>
+
+int CalculateFactorial(int n);
+
+int main()
+{
+	std::cout << "40! = " << CalculateFactorial(40) << std::endl;
+
+	return 0;
+}
+
+int CalculateFactorial(int n)
+{
+	assert(n > 0);
+	if (n == 1)
+	{
+		return 1;
+	}
+
+	else
+	{
+		return n*CalculateFactorial(n-1);
+	}
+}
