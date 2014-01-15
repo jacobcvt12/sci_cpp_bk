@@ -4,38 +4,64 @@
 double** Multiply(double** M, int M_row, int M_col, 
 		 double** N, int N_row, int N_col);
 
-int main(int argc, char* argv[])
+int main()
 {
-	double A[2][2] = {{1.0, 0.0}, {0.0, 1.0}};
-	double B[2][2] = {{2.0, 3.0}, {4.5, 7.0}};
+    double** A;
+    double** B;
 
-	double** AB;
+    A = new double* [2];
+    B = new double* [2];
+
+    for (int i = 0; i<2; i++)
+    {
+        A[i] = new double [2];
+        B[i] = new double [2];
+    }
+
+    A[0][0] = 1.0; A[0][1] = 0.0;
+    A[1][0] = 0.0; A[1][1] = 1.0;
+    
+    B[0][0] = 2.0; B[0][1] = 3.0;
+    B[1][0] = 4.5; B[1][1] = 7.0;
+
 	
-	AB = Multiply(A, 2, 2, B, 2, 2);
+	double** AB = Multiply(A, 2, 2, B, 2, 2);
 
-	return 0;
+    for (int i = 0; i<2; i++)
+    {
+        std::cout << AB[i][0] << " " << AB[i][1] << std::endl;
+
+        delete[] A[i];
+        delete[] B[i];
+    }
+
+    delete[] A;
+    delete[] B;
+
+    return 0;
 }
 
-double** Multiply(double** M, int M_row, int M_col, 
-		 double** N, int N_row, int N_col)
+double** Multiply(double** M, int M_row, int M_col, double** N, int N_row, int N_col)
 {
 	assert(M_col == N_row);
 
-	double C[M_row][N_col];
-	int sum;
+	double** C;
+    C = new double* [M_row];
 	
 	for (int i = 0; i < M_row; i++)
 	{
+        C[i] = new double [N_col];
+
 		for (int j = 0; j < N_col; j++)
 		{
-			sum = 0;
-			for (int k = 0; k < M_col; k++)
+		    C[i][j] = 0.0;
+			
+            for (int k = 0; k < M_col; k++)
 			{
-				sum += M[i][k] * N[k][j];
+				C[i][j] += (M[i][k] * N[k][j]);
 			}
-			C[i][j] = sum;
 		}
 	}
 
-	return M;					
+	return C;					
 }
