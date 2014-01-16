@@ -1,71 +1,117 @@
 #include <iostream>
 #include <cmath>
 
-double det(double** M, int row, int col, int first_row, int remove_col);
-double** CreateMat(double** M, int row, int col, int remove_row, int remove_col);
+double det(double** M, int dim, int* row_array, int* col_array, int remove_col=-1);
 
 int main()
 {
     double** A;
+	int dim = 2;
 
-    A = new double* [2];
-    for (int i = 0; i<2; i++)
+    A = new double* [dim];
+    for (int i = 0; i<dim; i++)
     {
-        A[i] = new double [2];
+        A[i] = new double [dim];
     }
 
     A[0][0] = 1.0; A[0][1] = 2.0;
-    A[1][0] = 0.0; A[1][1] = 1.0;
+    A[1][0] = 1.0; A[1][1] = 1.0;
 
-    std::cout << det(A, 2, 2, 0, -1) << std::endl;
+	int* a_row;
+	int* a_col;
 
-    for (int i = 0; i<2; i++)
+	a_row = new int [dim];
+	a_col = new int [dim];
+
+	for (int i = 0; i<dim; i++)
+	{
+			a_row[i] = i;
+			a_col[i] = i;
+	}
+	
+	double det_result = det(A, dim, a_row, a_col, -1);
+	//std::cout << det_result << std::endl;
+
+    for (int i = 0; i<dim; i++)
     {
         delete[] A[i];
     }
 
     delete[] A;
+	delete[] a_row;
+	delete[] a_col;
 
     return 0;
 }
 
-double det(double** M, int row, int col, int first_row, int remove_col)
+
+double det(double** M, int dim, int* row_array, int* col_array, int remove_col)
 {
 
     double d;
-    int j;
-    if ((row-first_row) == 1)
-    {
-        // indexing needs to be edited
-        return M[0][0];
+    
+	int* rows;
+	int* cols;
+
+	rows = new int [dim];
+	cols = new int [dim];
+	
+	if (remove_col==-1) 
+	{
+		for (int i = 0; i<dim; i++)
+		{
+				rows[i] = i;
+				cols[i] = i;
+		}
+	}	
+	else
+	{
+		int row_j = 0, col_j = 0;
+
+		for (int i = 0; i<dim; i++)
+		{
+			if (dim > 1)
+			{
+				if (i != 0) 
+				{		
+					rows[row_j] = row_array[i];
+					row_j++;
+				}
+				if (i != remove_col)
+				{
+					cols[col_j] = col_array[i];
+					col_j++;
+				}
+			}
+			else
+			{
+				rows[row_j] = row_array[i];
+				for (int i = 0; i<=dim; i++)
+				{	
+					if (i!= remove_col)
+					{
+						cols[0] = row_array[i];
+					}
+				}
+			}
+		}
+	}
+
+	if (dim == 1)
+    {	
+		std::cout << M[rows[0]][cols[0]] << std::endl;
+        return M[rows[0]][cols[0]];
     }
 
     else
     {
         d = 0;
-        j = 0;
-        for (int i = 0; i<col; i++)
+        for (int i = 0; i<dim; i++)
         {
-            if (remove_col == i) 
-            {
-                d += pow(-1, j) * M[first_row][i] * det(M, row, col, first_row+1, i);       
-            }
-            j++;
+                d += pow(-1, i) * M[row_array[i]][col_array[i]] * 
+					det(M, dim-1, rows, cols, i);       
+			std::cout << d << " " << i << std::endl;
         }
         return d;
     }
-}
-
-double** CreateMat(double** M, int dim, int remove_row, int remove_col)
-{   
-    double ** N;
-    N = new double* [dim];
-    
-    for (int i = 0; i<dim; i++)
-    {
-        N[i] = new double [dim];
-    }
-
-    return N;
-
 }
