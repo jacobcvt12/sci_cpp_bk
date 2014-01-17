@@ -6,7 +6,7 @@ double det(double** M, int dim, int* row_array, int* col_array, int remove_col=-
 int main()
 {
     double** A;
-	int dim = 2;
+	int dim = 3;
 
     A = new double* [dim];
     for (int i = 0; i<dim; i++)
@@ -14,8 +14,9 @@ int main()
         A[i] = new double [dim];
     }
 
-    A[0][0] = 1.0; A[0][1] = 2.0;
-    A[1][0] = 1.0; A[1][1] = 1.0;
+    A[0][0] = 1.0; A[0][1] = 2.0; A[0][2] = 3.0;
+    A[1][0] = 4.0; A[1][1] = 5.0; A[1][2] = 6.0;
+    A[2][0] = 7.0; A[2][1] = 8.0; A[2][2] = 9.0;
 
 	int* a_row;
 	int* a_col;
@@ -30,7 +31,8 @@ int main()
 	}
 	
 	double det_result = det(A, dim, a_row, a_col, -1);
-	//std::cout << det_result << std::endl;
+
+    std::cout << "Determinant is " << det_result << std::endl;
 
     for (int i = 0; i<dim; i++)
     {
@@ -85,7 +87,7 @@ double det(double** M, int dim, int* row_array, int* col_array, int remove_col)
 			}
 			else
 			{
-				rows[row_j] = row_array[i];
+				rows[0] = row_array[1];
 				for (int i = 0; i<=dim; i++)
 				{	
 					if (i!= remove_col)
@@ -99,7 +101,6 @@ double det(double** M, int dim, int* row_array, int* col_array, int remove_col)
 
 	if (dim == 1)
     {	
-		std::cout << M[rows[0]][cols[0]] << std::endl;
         return M[rows[0]][cols[0]];
     }
 
@@ -108,9 +109,14 @@ double det(double** M, int dim, int* row_array, int* col_array, int remove_col)
         d = 0;
         for (int i = 0; i<dim; i++)
         {
-                d += pow(-1, i) * M[row_array[i]][col_array[i]] * 
+            std::cout << "i: " << i << " dim: " << dim << "\n" << pow(-1, i) << " " <<  M[rows[0]][cols[i]] << std::endl;
+                d += pow(-1, i) * M[rows[0]][cols[i]] * 
 					det(M, dim-1, rows, cols, i);       
-			std::cout << d << " " << i << std::endl;
+
+        }
+        if (dim == 2) 
+        {
+            std::cout << "Determinant is " << d << std::endl;
         }
         return d;
     }
