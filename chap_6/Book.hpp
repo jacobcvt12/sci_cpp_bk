@@ -1,4 +1,6 @@
-//header file for book class
+#ifndef BOOKHEADERDEF
+#define BOOKHEADERDEF
+
 #include <string>
 
 class Book
@@ -6,5 +8,10 @@ class Book
     public:
         std::string author, title, publisher, format;
         int price; //Given in pence
-        int yearOfPublication;
-}; //Note that the class ends with ;
+        void SetYearOfPublication(int year);
+        int GetYearOfPublication() const;
+    private:
+        int mYearOfPublication;
+}; 
+
+#endif
