@@ -12,7 +12,7 @@ class AbstractOdeSolver
         void SetStepSize(double h);
         void SetTimeInterval(double t0, double t1);
         void SetInitialValue(double y0);
-        //virtual double RightHandSide(double y, double t) = 0;
+        virtual double (*RightHandSide)(double y, double t) = 0;
         virtual double SolveEquation() = 0;
         
         double GetStepSize() const;
@@ -30,7 +30,7 @@ class ForwardEulerSolver : public AbstractOdeSolver
 {
     public:
         // the problem is here. need to define this function.
-        //double RightHandSide(double y, double t);
+        double (*RightHandSide)(double y, double t);
         double SolveEquation();
 };
 

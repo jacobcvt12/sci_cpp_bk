@@ -55,6 +55,8 @@ double ForwardEulerSolver::SolveEquation()
     return y_i;
 }
 
+double (ForwardEulerSolver::*RightHandSide)(double y, double t);
+
 double diffEq(double Y, double T)
 {
     return 1 + T + Y - Y;

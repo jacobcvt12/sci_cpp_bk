@@ -17,6 +17,19 @@ ComplexNumber::ComplexNumber(double x, double y)
    mImaginaryPart = y;
 }
 
+ComplexNumber::ComplexNumber(double x)
+{
+    mRealPart = x;
+    mImaginaryPart = 0.0;
+}
+
+// Overridden copy constructor
+ComplexNumber::ComplexNumber(const ComplexNumber& z)
+{
+    mRealPart = z.mRealPart;
+    mImaginaryPart = z.mImaginaryPart;
+}
+
 // Method for computing the modulus of a
 // complex number
 double ComplexNumber::CalculateModulus() const
@@ -45,6 +58,16 @@ ComplexNumber ComplexNumber::CalculatePower(double n) const
    double imag_part = mod_of_result*sin(arg_of_result);
    ComplexNumber z(real_part, imag_part); 
    return z; 
+}
+
+ComplexNumber ComplexNumber::CalculateConjugate() const
+{
+    return ComplexNumber(mRealPart, (-1.0) * mImaginaryPart);
+}
+
+void ComplexNumber::SetConjugate()
+{
+    mImaginaryPart = (-1.0) * mImaginaryPart;
 }
 
 // Overloading the = (assignment) operator
@@ -102,4 +125,26 @@ std::ostream& operator<<(std::ostream& output,
       output << "- " << -z.mImaginaryPart << "i)";
    }
 }
-//Code from Chapter06.tex line 779 save as ComplexNumber.cpp
+
+// GetReal and ImaginaryPart are member functions
+double ComplexNumber::GetRealPart() const
+{
+    return mRealPart;
+}
+
+double ComplexNumber::GetImaginaryPart() const
+{
+    return mImaginaryPart;
+}
+
+// Real and ImaginaryPart are friend functions
+
+double RealPart(const ComplexNumber& z)
+{
+    return z.mRealPart;
+}
+
+double ImaginaryPart(const ComplexNumber& z)
+{
+    return z.mImaginaryPart;
+}
